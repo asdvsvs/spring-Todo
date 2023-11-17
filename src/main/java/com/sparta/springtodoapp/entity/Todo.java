@@ -21,9 +21,9 @@ public class Todo extends Timestamped{
     private Boolean completion;
 
     public Todo(String title, String content, User user) {
+        this.user=user;
         this.title=title;
         this.content=content;
-        this.user=user;
         this.completion =false;
     }
 }

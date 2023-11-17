@@ -22,7 +22,7 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "user")
-    private List<Todo> TodoList = new ArrayList<>();
+    private List<Todo> todoList = new ArrayList<>();
 
     public User(String username, String password) {
         this.username = username;
