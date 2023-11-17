@@ -65,4 +65,16 @@ public class TodoService {
         }
         return new TodoResponseDto(todo);
     }
+
+    @Transactional
+    public TodoResponseDto completeTodo(UserDetailsImpl userDetails, String title, String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Not Found " + username));
+        Todo todo = new Todo();
+        // 로그인 한 유저와 할일 작성 유저 일치 확인
+        if (Objects.equals(userDetails.getUser().getId(), user.getId())) {
+            todo =todoRepository.findByTitleAndUserId(title, user.getId());
+            todo.updateCompletion();
+        }
+        return new TodoResponseDto(todo);
+    }
 }

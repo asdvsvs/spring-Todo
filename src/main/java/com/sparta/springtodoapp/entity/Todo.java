@@ -34,4 +34,8 @@ public class Todo extends Timestamped{
         this.title = title;
         this.content = content;
     }
+
+    public void updateCompletion() {
+        this.completion = true;
+    }
 }

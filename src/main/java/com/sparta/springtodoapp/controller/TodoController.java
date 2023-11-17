@@ -43,4 +43,10 @@ public class TodoController {
         log.info("할일 카드 수정");
         return todoService.updateTodo(userDetails,title,username,requestDto);
     }
+
+    @PutMapping("/todo/completion")
+    public TodoResponseDto completeTodo(@AuthenticationPrincipal UserDetailsImpl userDetails, String title, String username){
+        log.info("할일 완료 처리");
+        return todoService.completeTodo(userDetails,title,username);
+    }
 }
