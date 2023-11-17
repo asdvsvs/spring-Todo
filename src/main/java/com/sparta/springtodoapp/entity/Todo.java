@@ -29,4 +29,9 @@ public class Todo extends Timestamped{
         this.content=content;
         this.completion =false;
     }
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }

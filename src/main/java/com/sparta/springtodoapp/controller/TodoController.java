@@ -28,6 +28,7 @@ public class TodoController {
 
     @GetMapping("/todo")
     public TodoResponseDto getTodoInfo(String title, String username) {
+        log.info("할일 카드 조회");
         return todoService.getTodoInfo(title, username);
     }
 
@@ -35,5 +36,11 @@ public class TodoController {
     public List<TodoListResponseDto> getTodoByUser() {
         log.info("할일 목록 조회");
         return todoService.getTodoByUser();
+    }
+
+    @PutMapping("/todo")
+    public TodoResponseDto updateTodo(@AuthenticationPrincipal UserDetailsImpl userDetails,String title, String username, @RequestBody TodoRequestDto requestDto){
+        log.info("할일 카드 수정");
+        return todoService.updateTodo(userDetails,title,username,requestDto);
     }
 }
