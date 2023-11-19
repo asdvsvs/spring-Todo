@@ -11,11 +11,11 @@ import com.sparta.springtodoapp.repository.UserRepository;
 import com.sparta.springtodoapp.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -38,5 +38,16 @@ public class CommentService {
             log.info("할일 존재 X");
             throw new IllegalArgumentException("해당 할일은 존재하지 않습니다.");
         }
+    }
+
+    @Transactional
+    public void updateComment(UserDetailsImpl userDetails, CommentRequestDto requestDto) {
+        if(userDetails ==null) throw new IllegalArgumentException("로그인이 필요합니다");
+        User user = userRepository.findByUsername(requestDto.getUsername()).orElseThrow(() -> new UsernameNotFoundException("Not Found " + requestDto.getUsername()));
+        Comment comment =commentRepository.findByContentAndUserId(requestDto.getContent(),user.getId());
+        if(Objects.equals(userDetails.getUser().getUsername(), requestDto.getUsername())){
+            comment.update(requestDto.getUpdateContent());
+        }
+
     }
 }

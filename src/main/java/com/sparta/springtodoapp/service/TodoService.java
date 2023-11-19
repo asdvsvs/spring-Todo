@@ -43,7 +43,7 @@ public class TodoService {
         return new TodoResponseDto(todo);
     }
 
-    public List<TodoListResponseDto> getTodoByUser() {
+    public List<TodoListResponseDto> getTodos() {
         long userCount = userRepository.count();
         List<TodoListResponseDto> responseDtoList = new ArrayList<>();
 

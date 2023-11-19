@@ -7,4 +7,5 @@ public class CommentRequestDto {
     String title;
     String username;
     String content;
+    String updateContent;
 }

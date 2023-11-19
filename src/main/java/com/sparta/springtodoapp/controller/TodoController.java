@@ -8,7 +8,6 @@ import com.sparta.springtodoapp.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,9 +32,9 @@ public class TodoController {
     }
 
     @GetMapping("/todoList")
-    public List<TodoListResponseDto> getTodoByUser() {
+    public List<TodoListResponseDto> getTodos() {
         log.info("할일 목록 조회");
-        return todoService.getTodoByUser();
+        return todoService.getTodos();
     }
 
     @PutMapping("/todo")
