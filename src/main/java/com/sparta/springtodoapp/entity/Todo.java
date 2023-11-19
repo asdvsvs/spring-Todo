@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -22,6 +25,9 @@ public class Todo extends Timestamped{
     @NotNull
     private String content;
     private Boolean completion;
+
+    @OneToMany(mappedBy = "todo")
+    private List<Comment> comments = new ArrayList<>();
 
     public Todo(String title, String content, User user) {
         this.user=user;
