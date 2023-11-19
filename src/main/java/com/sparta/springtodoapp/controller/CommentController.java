@@ -26,4 +26,9 @@ public class CommentController {
     public void updateComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CommentRequestDto requestDto) {
         commentService.updateComment(userDetails,requestDto);
     }
+
+    @DeleteMapping("/comment")
+    public void deleteComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CommentRequestDto requestDto) {
+        commentService.deleteComment(userDetails,requestDto);
+    }
 }
