@@ -26,7 +26,7 @@ public class TodoService {
     private final TodoRepository todoRepository;
     private final UserRepository userRepository;
 
-    public void makeTodo(UserDetailsImpl userDetails, TodoRequestDto requestDto) {
+    public TodoResponseDto makeTodo(UserDetailsImpl userDetails, TodoRequestDto requestDto) {
         String title = requestDto.getTitle();
         String content = requestDto.getContent();
         User user = userDetails.getUser();
@@ -34,7 +34,11 @@ public class TodoService {
         // 같은 유저의 같은 할일 중복 검사
         if (todoRepository.findByTitleAndUserId(title, user.getId()) == null) {
             todoRepository.save(todo);
-        } else log.info("입력한 할일 제목이 이미 있습니다.");
+            return new TodoResponseDto(todo);
+        } else {
+            log.info("입력한 할일 제목이 이미 있습니다.");
+            throw new IllegalArgumentException("입력한 할일 제목이 있습니다");
+        }
     }
 
     public TodoResponseDto getTodoInfo(String title, String username) {

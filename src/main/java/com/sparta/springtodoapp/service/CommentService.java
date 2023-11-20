@@ -2,7 +2,6 @@ package com.sparta.springtodoapp.service;
 
 import com.sparta.springtodoapp.dto.CommentRequestDto;
 import com.sparta.springtodoapp.dto.CommentResponeseDto;
-import com.sparta.springtodoapp.dto.ExceptionResponseDto;
 import com.sparta.springtodoapp.entity.Comment;
 import com.sparta.springtodoapp.entity.Todo;
 import com.sparta.springtodoapp.entity.User;
@@ -12,13 +11,10 @@ import com.sparta.springtodoapp.repository.UserRepository;
 import com.sparta.springtodoapp.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
