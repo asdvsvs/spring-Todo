@@ -115,4 +115,13 @@ class TodoControllerTest {
                 .andDo(print());
 
     }
+
+    @Test
+    @DisplayName("할일 목록 조회")
+    void getTodos() throws Exception {
+        //when-then
+        mvc.perform(get("/api/todoList"))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 }
