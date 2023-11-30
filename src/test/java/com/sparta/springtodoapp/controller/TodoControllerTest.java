@@ -96,4 +96,23 @@ class TodoControllerTest {
                 .andDo(print());
     }
 
+
+    @Test
+    @DisplayName("할일 카드 조회")
+    void getTodoInfo() throws Exception {
+        //given
+        String title = "spring";
+        String username = "sparta";
+
+        //when-then
+        mvc.perform(get("/api/todo")
+                        .param("title",title)
+                        .param("username",username)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andDo(print());
+
+    }
 }
