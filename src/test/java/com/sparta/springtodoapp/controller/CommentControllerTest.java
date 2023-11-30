@@ -82,7 +82,7 @@ class CommentControllerTest {
         String title = "spring";
         String username = "sparta";
         String content = "codingClub";
-        String updateContent = "CookingClub";
+        String updateContent = "";
         CommentRequestDto requestDto = new CommentRequestDto(title, username, content, updateContent);
         String postInfo = objectMapper.writeValueAsString(requestDto);
 
@@ -98,10 +98,46 @@ class CommentControllerTest {
     }
 
     @Test
-    void updateComment() {
+    void updateComment() throws Exception{
+        //given
+        this.mockUserSetup();
+        String title = "spring";
+        String username = "sparta";
+        String content = "codingClub";
+        String updateContent = "CookingClub";
+        CommentRequestDto requestDto = new CommentRequestDto(title, username, content, updateContent);
+        String postInfo = objectMapper.writeValueAsString(requestDto);
+
+        //when-then
+        mvc.perform(put("/api/comment")
+                        .content(postInfo)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .principal(mockPrincipal)
+                )
+                .andExpect(status().isOk())
+                .andDo(print());
     }
 
     @Test
-    void deleteComment() {
+    void deleteComment() throws Exception{
+        //given
+        this.mockUserSetup();
+        String title = "spring";
+        String username = "sparta";
+        String content = "codingClub";
+        String updateContent = "";
+        CommentRequestDto requestDto = new CommentRequestDto(title, username, content, updateContent);
+        String postInfo = objectMapper.writeValueAsString(requestDto);
+
+        //when-then
+        mvc.perform(delete("/api/comment")
+                        .content(postInfo)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .principal(mockPrincipal)
+                )
+                .andExpect(status().isOk())
+                .andDo(print());
     }
 }
