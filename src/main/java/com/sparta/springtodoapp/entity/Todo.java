@@ -24,7 +24,7 @@ public class Todo extends Timestamped{
     private String title;
     @NotNull
     private String content;
-    private Boolean completion;
+    private Boolean completion=false;
 
     @OneToMany(mappedBy = "todo")
     private List<Comment> comments = new ArrayList<>();
@@ -33,7 +33,6 @@ public class Todo extends Timestamped{
         this.user=user;
         this.title=title;
         this.content=content;
-        this.completion =false;
     }
 
     public void update(String title, String content) {
