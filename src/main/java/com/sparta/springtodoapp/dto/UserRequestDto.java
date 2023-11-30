@@ -4,8 +4,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class UserRequestDto {
     @NotNull
     @Size(min = 4, max = 10, message = "4~10글자 사이로 입력")
