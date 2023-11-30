@@ -1,10 +1,15 @@
 package com.sparta.springtodoapp.controller;
 
+import com.sparta.springtodoapp.dto.CommonResponseDto;
 import com.sparta.springtodoapp.dto.UserRequestDto;
+import com.sparta.springtodoapp.jwt.JwtUtil;
 import com.sparta.springtodoapp.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -20,18 +25,29 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     @PostMapping("/signup")
-    public void signup(@Valid @RequestBody UserRequestDto requestDto, BindingResult bindingResult) {
-        List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-        if(!fieldErrors.isEmpty()){
-            for (FieldError fieldError : bindingResult.getFieldErrors()) {
-                log.error(fieldError.getField() + "필드 : "+ fieldError.getDefaultMessage());
-            }
-        }
-        else {
+    public ResponseEntity<CommonResponseDto> signup(@Valid @RequestBody UserRequestDto requestDto) {
+        try {
             userService.signup(requestDto);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
+        return ResponseEntity.status(HttpStatus.CREATED.value())
+                .body(new CommonResponseDto("회원가입 성공", HttpStatus.CREATED.value()));
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<CommonResponseDto> login(@RequestBody UserRequestDto userRequestDto, HttpServletResponse response) {
+        try {
+            userService.login(userRequestDto);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
+
+        response.setHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(userRequestDto.getUsername()));
+
+        return ResponseEntity.ok().body(new CommonResponseDto("로그인 성공", HttpStatus.OK.value()));
+    }
 }
