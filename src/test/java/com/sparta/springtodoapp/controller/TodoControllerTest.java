@@ -124,4 +124,30 @@ class TodoControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
+
+    @Test
+    @DisplayName("할일 카드 수정")
+    void updateTodo() throws Exception {
+        //given
+        this.mockUserSetup();
+        String title = "spring";
+        String username = "sparta";
+        String newTitle = "spring";
+        String content = "sparta";
+        TodoRequestDto todoRequestDto = new TodoRequestDto(newTitle, content);
+        String postInfo = objectMapper.writeValueAsString(todoRequestDto);
+
+
+        //when-then
+        mvc.perform(put("/api/todo")
+                        .param("title", title)
+                        .param("username", username)
+                        .content(postInfo)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .principal(mockPrincipal)
+                )
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 }
