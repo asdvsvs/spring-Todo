@@ -150,4 +150,20 @@ class TodoControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
+
+    @Test
+    @DisplayName("할일 완료 처리")
+    void completeTodo() throws Exception {
+        //given
+        String title = "spring";
+        String username = "sparta";
+
+        //when-then
+        mvc.perform(put("/api/todo/completion")
+                        .param("title", title)
+                        .param("username", username)
+                )
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 }
