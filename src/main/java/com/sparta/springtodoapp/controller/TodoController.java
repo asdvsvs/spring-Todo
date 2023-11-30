@@ -20,7 +20,7 @@ public class TodoController {
     private final TodoService todoService;
 
     @PostMapping("/todo")
-    public TodoResponseDto makeTodo(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody TodoRequestDto requestDto){
+    public TodoResponseDto makeTodo(@RequestBody TodoRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         log.info("할일 생성");
         return todoService.makeTodo(userDetails,requestDto);
     }
