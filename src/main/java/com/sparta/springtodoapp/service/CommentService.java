@@ -4,7 +4,7 @@ import com.sparta.springtodoapp.dto.CommentRequestDto;
 import com.sparta.springtodoapp.dto.CommentResponeseDto;
 import com.sparta.springtodoapp.entity.Comment;
 import com.sparta.springtodoapp.entity.Todo;
-import com.sparta.springtodoapp.entity.User;
+import com.sparta.springtodoapp.entity.Users;
 import com.sparta.springtodoapp.repository.CommentRepository;
 import com.sparta.springtodoapp.repository.TodoRepository;
 import com.sparta.springtodoapp.repository.UserRepository;
@@ -27,8 +27,8 @@ public class CommentService {
 
     public CommentResponeseDto writeComment(UserDetailsImpl userDetails, CommentRequestDto requestDto) {
         if(userDetails ==null) throw new IllegalArgumentException("로그인이 필요합니다");
-        User user = userRepository.findByUsername(requestDto.getUsername()).orElseThrow(() -> new UsernameNotFoundException("Not Found " + requestDto.getUsername()));
-        Todo todo = todoRepository.findByTitleAndUserId(requestDto.getTitle(), user.getId());
+        Users users = userRepository.findByUsername(requestDto.getUsername()).orElseThrow(() -> new UsernameNotFoundException("Not Found " + requestDto.getUsername()));
+        Todo todo = todoRepository.findByTitleAndUsersId(requestDto.getTitle(), users.getId());
         if (todo !=null) {
             CommentResponeseDto responseDto = new CommentResponeseDto(requestDto.getContent());
             Comment comment = new Comment(requestDto.getContent(),userDetails.getUser(), todo);
@@ -55,10 +55,10 @@ public class CommentService {
         if(userDetails ==null) {
             throw new IllegalArgumentException("로그인이 필요합니다.");
         }
-        User user = userRepository.findByUsername(requestDto.getUsername()).orElseThrow(() -> new UsernameNotFoundException("Not Found " + requestDto.getUsername()));
+        Users users = userRepository.findByUsername(requestDto.getUsername()).orElseThrow(() -> new UsernameNotFoundException("Not Found " + requestDto.getUsername()));
         if(!Objects.equals(userDetails.getUser().getUsername(), requestDto.getUsername())){
             throw new IllegalArgumentException("로그인 한 유저와 댓글 작성자 불일치");
         }
-        return commentRepository.findByContentAndUserId(requestDto.getContent(),user.getId());
+        return commentRepository.findByContentAndUsersId(requestDto.getContent(), users.getId());
     }
 }

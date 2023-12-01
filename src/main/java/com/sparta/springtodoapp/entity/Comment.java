@@ -14,7 +14,7 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users users;
 
     @ManyToOne
     @JoinColumn(name = "todo_id")
@@ -22,9 +22,9 @@ public class Comment {
 
     private String content;
 
-    public Comment(String content, User user, Todo todo) {
+    public Comment(String content, Users users, Todo todo) {
         this.content = content;
-        this.user = user;
+        this.users = users;
         this.todo =todo;
     }
 

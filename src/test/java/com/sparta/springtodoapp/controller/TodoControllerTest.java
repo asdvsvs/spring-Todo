@@ -3,12 +3,11 @@ package com.sparta.springtodoapp.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.springtodoapp.config.WebSecurityConfig;
 import com.sparta.springtodoapp.dto.TodoRequestDto;
-import com.sparta.springtodoapp.entity.User;
+import com.sparta.springtodoapp.entity.Users;
 import com.sparta.springtodoapp.jwt.JwtUtil;
 import com.sparta.springtodoapp.mvc.MockSpringSecurityFilter;
 import com.sparta.springtodoapp.security.UserDetailsImpl;
 import com.sparta.springtodoapp.service.TodoService;
-import com.sparta.springtodoapp.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,8 +21,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 import java.security.Principal;
 
@@ -70,8 +67,8 @@ class TodoControllerTest {
     private void mockUserSetup() {
         String username = "sparta";
         String password = "codingClub";
-        User testUser = new User(username, password);
-        UserDetailsImpl testUserDetails = new UserDetailsImpl(testUser);
+        Users testUsers = new Users(username, password);
+        UserDetailsImpl testUserDetails = new UserDetailsImpl(testUsers);
         mockPrincipal = new UsernamePasswordAuthenticationToken(testUserDetails,"");
     }
 

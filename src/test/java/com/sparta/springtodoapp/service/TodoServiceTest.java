@@ -3,7 +3,7 @@ package com.sparta.springtodoapp.service;
 import com.sparta.springtodoapp.dto.TodoRequestDto;
 import com.sparta.springtodoapp.dto.TodoResponseDto;
 import com.sparta.springtodoapp.entity.Todo;
-import com.sparta.springtodoapp.entity.User;
+import com.sparta.springtodoapp.entity.Users;
 import com.sparta.springtodoapp.repository.TodoRepository;
 import com.sparta.springtodoapp.repository.UserRepository;
 import com.sparta.springtodoapp.security.UserDetailsImpl;
@@ -13,12 +13,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class TodoServiceTest {
@@ -32,18 +30,18 @@ class TodoServiceTest {
     @Test
     void makeTodo() {
         //given
-        UserDetailsImpl userDetails =new UserDetailsImpl(new User());
+        UserDetailsImpl userDetails =new UserDetailsImpl(new Users());
         TodoRequestDto requestDto= new TodoRequestDto("","");
         TodoService todoService = new TodoService(todoRepository,userRepository);
 
         //when
-        given(todoRepository.findByTitleAndUserId(requestDto.getTitle(),new User().getId())).willReturn(new Todo());
+        given(todoRepository.findByTitleAndUsersId(requestDto.getTitle(),new Users().getId())).willReturn(new Todo());
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 ()->todoService.makeTodo(userDetails,requestDto)
         );
 
-        given(todoRepository.findByTitleAndUserId(requestDto.getTitle(),new User().getId())).willReturn(null);
+        given(todoRepository.findByTitleAndUsersId(requestDto.getTitle(),new Users().getId())).willReturn(null);
         todoService.makeTodo(userDetails,requestDto);
 
         //then
@@ -55,7 +53,7 @@ class TodoServiceTest {
         //given
         String title = "spring";
         String username = "sparta";
-        User user = new User(username,"");
+        Users users = new Users(username,"");
         TodoService todoService = new TodoService(todoRepository,userRepository);
 
         //when
@@ -64,8 +62,8 @@ class TodoServiceTest {
                 UsernameNotFoundException.class,
                 ()->todoService.getTodoInfo(title,username)
         );
-        given(userRepository.findByUsername(username)).willReturn(Optional.of(user));
-        given(todoRepository.findByTitleAndUserId(title,user.getId())).willReturn(new Todo(title,"",user));
+        given(userRepository.findByUsername(username)).willReturn(Optional.of(users));
+        given(todoRepository.findByTitleAndUsersId(title, users.getId())).willReturn(new Todo(title,"", users));
         TodoResponseDto responseDto = todoService.getTodoInfo(title,username);
 
         //then
@@ -84,20 +82,20 @@ class TodoServiceTest {
         String username = "sparta";
         String title ="spring";
         String content = "codingClub";
-        User user = new User(username,"");
-        Todo todo = new Todo(title,content,user);
-        UserDetailsImpl userDetails = new UserDetailsImpl(new User());
+        Users users = new Users(username,"");
+        Todo todo = new Todo(title,content, users);
+        UserDetailsImpl userDetails = new UserDetailsImpl(new Users());
         TodoRequestDto todoRequestDto = new TodoRequestDto(title,content);
         TodoService todoService = new TodoService(todoRepository,userRepository);
-        given(userRepository.findByUsername(username)).willReturn(Optional.of(new User(username,"")));
-        given(todoRepository.findByTitleAndUserId(title,user.getId())).willReturn(todo);
+        given(userRepository.findByUsername(username)).willReturn(Optional.of(new Users(username,"")));
+        given(todoRepository.findByTitleAndUsersId(title, users.getId())).willReturn(todo);
 
         //when
         IllegalAccessException exception = assertThrows(
                 IllegalAccessException.class,
                 ()-> todoService.updateTodo(userDetails,title,username, todoRequestDto)
         );
-        given(userRepository.findByUsername(username)).willReturn(Optional.of(new User()));
+        given(userRepository.findByUsername(username)).willReturn(Optional.of(new Users()));
         TodoResponseDto responseDto = todoService.updateTodo(userDetails,title,username,todoRequestDto);
 
         //then
@@ -113,19 +111,19 @@ class TodoServiceTest {
         String username = "sparta";
         String title ="spring";
         String content = "codingClub";
-        User user = new User(username,"");
-        Todo todo = new Todo(title,content,user);
-        UserDetailsImpl userDetails = new UserDetailsImpl(new User("",""));
+        Users users = new Users(username,"");
+        Todo todo = new Todo(title,content, users);
+        UserDetailsImpl userDetails = new UserDetailsImpl(new Users("",""));
         TodoService todoService = new TodoService(todoRepository,userRepository);
-        given(userRepository.findByUsername(username)).willReturn(Optional.of(new User(username,"")));
-        given(todoRepository.findByTitleAndUserId(title,user.getId())).willReturn(todo);
+        given(userRepository.findByUsername(username)).willReturn(Optional.of(new Users(username,"")));
+        given(todoRepository.findByTitleAndUsersId(title, users.getId())).willReturn(todo);
 
         //when
         IllegalAccessException exception = assertThrows(
                 IllegalAccessException.class,
                 ()-> todoService.completeTodo(userDetails,title,username)
         );
-        given(userRepository.findByUsername(username)).willReturn(Optional.of(new User("","")));
+        given(userRepository.findByUsername(username)).willReturn(Optional.of(new Users("","")));
         TodoResponseDto responseDto = todoService.completeTodo(userDetails,title,username);
 
         //then

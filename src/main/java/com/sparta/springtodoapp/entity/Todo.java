@@ -18,7 +18,7 @@ public class Todo extends Timestamped{
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users users;
 
     @NotNull
     private String title;
@@ -29,8 +29,8 @@ public class Todo extends Timestamped{
     @OneToMany(mappedBy = "todo")
     private List<Comment> comments = new ArrayList<>();
 
-    public Todo(String title, String content, User user) {
-        this.user=user;
+    public Todo(String title, String content, Users users) {
+        this.users = users;
         this.title=title;
         this.content=content;
     }

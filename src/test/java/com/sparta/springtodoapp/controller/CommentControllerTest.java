@@ -3,7 +3,7 @@ package com.sparta.springtodoapp.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.springtodoapp.config.WebSecurityConfig;
 import com.sparta.springtodoapp.dto.CommentRequestDto;
-import com.sparta.springtodoapp.entity.User;
+import com.sparta.springtodoapp.entity.Users;
 import com.sparta.springtodoapp.jwt.JwtUtil;
 import com.sparta.springtodoapp.mvc.MockSpringSecurityFilter;
 import com.sparta.springtodoapp.security.UserDetailsImpl;
@@ -25,7 +25,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.security.Principal;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -69,8 +68,8 @@ class CommentControllerTest {
     private void mockUserSetup() {
         String username = "sparta";
         String password = "codingClub";
-        User testUser = new User(username, password);
-        UserDetailsImpl testUserDetails = new UserDetailsImpl(testUser);
+        Users testUsers = new Users(username, password);
+        UserDetailsImpl testUserDetails = new UserDetailsImpl(testUsers);
         mockPrincipal = new UsernamePasswordAuthenticationToken(testUserDetails, "");
     }
 

@@ -1,12 +1,11 @@
 package com.sparta.springtodoapp.service;
 
 import com.sparta.springtodoapp.dto.UserRequestDto;
-import com.sparta.springtodoapp.entity.User;
+import com.sparta.springtodoapp.entity.Users;
 import com.sparta.springtodoapp.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -16,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+class UsersServiceTest {
 
     @Mock
     UserRepository userRepository;
@@ -27,11 +26,11 @@ class UserServiceTest {
     void signup() {
         //given
         UserRequestDto requestDto = new UserRequestDto("sparta", "codingClub");
-        User user = new User(requestDto.getUsername(), passwordEncoder.encode(requestDto.getPassword()));
+        Users users = new Users(requestDto.getUsername(), passwordEncoder.encode(requestDto.getPassword()));
         UserService userService = new UserService(userRepository, passwordEncoder);
 
         //when
-        given(userRepository.findByUsername(requestDto.getUsername())).willReturn(Optional.of(user));
+        given(userRepository.findByUsername(requestDto.getUsername())).willReturn(Optional.of(users));
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> userService.signup(requestDto)
@@ -48,7 +47,7 @@ class UserServiceTest {
     void login() {
         //given
         UserRequestDto requestDto = new UserRequestDto("sparta", "codingClub");
-        User user = new User(requestDto.getUsername(), passwordEncoder.encode(requestDto.getPassword()));
+        Users users = new Users(requestDto.getUsername(), passwordEncoder.encode(requestDto.getPassword()));
         UserService userService = new UserService(userRepository, passwordEncoder);
 
         //when
@@ -57,13 +56,13 @@ class UserServiceTest {
                 NullPointerException.class,
                 ()-> userService.login(requestDto)
         );
-        given(userRepository.findByUsername(requestDto.getUsername())).willReturn(Optional.of(user));
-        given(passwordEncoder.matches(requestDto.getPassword(),user.getPassword())).willReturn(false);
+        given(userRepository.findByUsername(requestDto.getUsername())).willReturn(Optional.of(users));
+        given(passwordEncoder.matches(requestDto.getPassword(), users.getPassword())).willReturn(false);
         IllegalArgumentException illegalArgumentException = assertThrows(
                 IllegalArgumentException.class,
                 ()-> userService.login(requestDto)
         );
-        given(passwordEncoder.matches(requestDto.getPassword(),user.getPassword())).willReturn(true);
+        given(passwordEncoder.matches(requestDto.getPassword(), users.getPassword())).willReturn(true);
         userService.login(requestDto);
 
 

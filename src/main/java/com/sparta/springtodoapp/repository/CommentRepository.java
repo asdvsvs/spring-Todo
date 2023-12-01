@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    Comment findByContentAndUserId(String content, Long id);
+    Comment findByContentAndUsersId(String content, Long id);
 }

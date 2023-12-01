@@ -1,33 +1,24 @@
 package com.sparta.springtodoapp.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.springtodoapp.config.WebSecurityConfig;
-import com.sparta.springtodoapp.dto.UserRequestDto;
-import com.sparta.springtodoapp.entity.User;
 import com.sparta.springtodoapp.jwt.JwtUtil;
-import com.sparta.springtodoapp.mvc.MockSpringSecurityFilter;
-import com.sparta.springtodoapp.security.UserDetailsImpl;
 import com.sparta.springtodoapp.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
-import java.security.Principal;
 
 import static org.assertj.core.api.BDDAssumptions.given;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -43,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         }
 )
 @ActiveProfiles("test")
-class UserControllerTest {
+class UsersControllerTest {
 
     private MockMvc mvc;
 

@@ -1,11 +1,9 @@
 package com.sparta.springtodoapp.dto;
 
 import com.sparta.springtodoapp.entity.Todo;
-import com.sparta.springtodoapp.entity.User;
+import com.sparta.springtodoapp.entity.Users;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,8 +17,8 @@ class TodoListResponseDtoTest {
         String password = "";
         String title= "몰입하자";
         String content ="";
-        User user = new User(username, password);
-        Todo todo =new Todo(title,content,user);
+        Users users = new Users(username, password);
+        Todo todo =new Todo(title,content, users);
 
         //when
         TodoListResponseDto todoListResponseDto = new TodoListResponseDto(todo);

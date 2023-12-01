@@ -16,7 +16,7 @@ public class TodoResponseDto {
     public TodoResponseDto(Todo todo) {
         this.title = todo.getTitle();
         this.content = todo.getContent();
-        this.username = todo.getUser().getUsername();
+        this.username = todo.getUsers().getUsername();
         this.completion = todo.getCompletion();
         this.createdAt = todo.getCreatedAt();
     }

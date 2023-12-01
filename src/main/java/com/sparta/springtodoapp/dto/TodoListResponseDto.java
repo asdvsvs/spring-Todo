@@ -13,7 +13,7 @@ public class TodoListResponseDto {
     private LocalDateTime createdAt;
 
     public TodoListResponseDto(Todo todo) {
-        this.username = todo.getUser().getUsername();
+        this.username = todo.getUsers().getUsername();
         this.title = todo.getTitle();
         this.completion = todo.getCompletion();
         this.createdAt = todo.getCreatedAt();
