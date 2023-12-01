@@ -1,6 +1,7 @@
 package com.sparta.springtodoapp.service;
 
 import com.sparta.springtodoapp.dto.TodoRequestDto;
+import com.sparta.springtodoapp.dto.TodoResponseDto;
 import com.sparta.springtodoapp.entity.Todo;
 import com.sparta.springtodoapp.entity.User;
 import com.sparta.springtodoapp.repository.TodoRepository;
@@ -12,10 +13,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class TodoServiceTest {
@@ -24,6 +27,7 @@ class TodoServiceTest {
 
     @Mock
     UserRepository userRepository;
+
 
     @Test
     void makeTodo() {
@@ -69,7 +73,32 @@ class TodoServiceTest {
     }
 
     @Test
-    void updateTodo() {
+    void updateTodo() throws IllegalAccessException {
+        //given
+        String username = "sparta";
+        String title ="spring";
+        String content = "codingClub";
+        User user = new User(username,"");
+        Todo todo = new Todo(title,content,user);
+        UserDetailsImpl userDetails = new UserDetailsImpl(new User());
+        TodoRequestDto todoRequestDto = new TodoRequestDto(title,content);
+        TodoService todoService = new TodoService(todoRepository,userRepository);
+        given(userRepository.findByUsername(username)).willReturn(Optional.of(new User(username,"")));
+        given(todoRepository.findByTitleAndUserId(title,user.getId())).willReturn(todo);
+
+        //when
+        IllegalAccessException exception = assertThrows(
+                IllegalAccessException.class,
+                ()-> todoService.updateTodo(userDetails,title,username, todoRequestDto)
+        );
+        given(userRepository.findByUsername(username)).willReturn(Optional.of(new User()));
+        TodoResponseDto responseDto = todoService.updateTodo(userDetails,title,username,todoRequestDto);
+
+        //then
+        assertEquals("로그인한 유저와 할일 작성자가 일치하지 않습니다",exception.getMessage());
+        assertEquals(username,responseDto.getUsername());
+        assertEquals(title,responseDto.getTitle());
+        assertEquals(content,responseDto.getContent());
     }
 
     @Test

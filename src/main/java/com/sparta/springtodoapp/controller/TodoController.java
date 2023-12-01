@@ -38,7 +38,7 @@ public class TodoController {
     }
 
     @PutMapping("/todo")
-    public TodoResponseDto updateTodo(@AuthenticationPrincipal UserDetailsImpl userDetails,String title, String username, @RequestBody TodoRequestDto requestDto){
+    public TodoResponseDto updateTodo(@AuthenticationPrincipal UserDetailsImpl userDetails,String title, String username, @RequestBody TodoRequestDto requestDto) throws IllegalAccessException {
         log.info("할일 카드 수정");
         return todoService.updateTodo(userDetails,title,username,requestDto);
     }
