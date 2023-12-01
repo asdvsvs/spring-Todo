@@ -108,6 +108,28 @@ class TodoServiceTest {
     }
 
     @Test
-    void completeTodo() {
+    void completeTodo() throws IllegalAccessException {
+        //given
+        String username = "sparta";
+        String title ="spring";
+        String content = "codingClub";
+        User user = new User(username,"");
+        Todo todo = new Todo(title,content,user);
+        UserDetailsImpl userDetails = new UserDetailsImpl(new User("",""));
+        TodoService todoService = new TodoService(todoRepository,userRepository);
+        given(userRepository.findByUsername(username)).willReturn(Optional.of(new User(username,"")));
+        given(todoRepository.findByTitleAndUserId(title,user.getId())).willReturn(todo);
+
+        //when
+        IllegalAccessException exception = assertThrows(
+                IllegalAccessException.class,
+                ()-> todoService.completeTodo(userDetails,title,username)
+        );
+        given(userRepository.findByUsername(username)).willReturn(Optional.of(new User("","")));
+        TodoResponseDto responseDto = todoService.completeTodo(userDetails,title,username);
+
+        //then
+        assertEquals("로그인한 유저와 할일 작성자가 일치하지 않습니다",exception.getMessage());
+        assertEquals(true,responseDto.getCompletion());
     }
 }

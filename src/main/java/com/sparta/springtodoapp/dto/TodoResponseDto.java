@@ -10,12 +10,14 @@ public class TodoResponseDto {
     private String username;
     private String title;
     private String content;
+    private Boolean completion;
     private LocalDateTime createdAt;
 
     public TodoResponseDto(Todo todo) {
         this.title = todo.getTitle();
         this.content = todo.getContent();
         this.username = todo.getUser().getUsername();
+        this.completion = todo.getCompletion();
         this.createdAt = todo.getCreatedAt();
     }
 }

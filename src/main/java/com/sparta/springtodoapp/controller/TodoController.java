@@ -44,7 +44,7 @@ public class TodoController {
     }
 
     @PutMapping("/todo/completion")
-    public TodoResponseDto completeTodo(@AuthenticationPrincipal UserDetailsImpl userDetails, String title, String username){
+    public TodoResponseDto completeTodo(@AuthenticationPrincipal UserDetailsImpl userDetails, String title, String username) throws IllegalAccessException {
         log.info("할일 완료 처리");
         return todoService.completeTodo(userDetails,title,username);
     }

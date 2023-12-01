@@ -73,13 +73,15 @@ public class TodoService {
     }
 
     @Transactional
-    public TodoResponseDto completeTodo(UserDetailsImpl userDetails, String title, String username) {
+    public TodoResponseDto completeTodo(UserDetailsImpl userDetails, String title, String username) throws IllegalAccessException {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Not Found " + username));
         Todo todo = new Todo();
         // 로그인 한 유저와 할일 작성 유저 일치 확인
-        if (Objects.equals(userDetails.getUser().getId(), user.getId())) {
+        if (Objects.equals(userDetails.getUser().getUsername(), user.getUsername())) {
             todo =todoRepository.findByTitleAndUserId(title, user.getId());
             todo.updateCompletion();
+        }else {
+            throw new IllegalAccessException("로그인한 유저와 할일 작성자가 일치하지 않습니다");
         }
         return new TodoResponseDto(todo);
     }
