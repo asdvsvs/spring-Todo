@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Optional;
 
@@ -47,6 +48,20 @@ class TodoServiceTest {
 
     @Test
     void getTodoInfo() {
+        //given
+        String title = "spring";
+        String username = "sparta";
+        TodoService todoService = new TodoService(todoRepository,userRepository);
+        given(userRepository.findByUsername(username)).willReturn(Optional.empty());
+
+        //when
+        UsernameNotFoundException exception = assertThrows(
+                UsernameNotFoundException.class,
+                ()->todoService.getTodoInfo(title,username)
+        );
+
+        //then
+        assertEquals("Not Found "+username,exception.getMessage());
     }
 
     @Test
