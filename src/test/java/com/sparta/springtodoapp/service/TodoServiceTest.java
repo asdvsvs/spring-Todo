@@ -55,17 +55,23 @@ class TodoServiceTest {
         //given
         String title = "spring";
         String username = "sparta";
+        User user = new User(username,"");
         TodoService todoService = new TodoService(todoRepository,userRepository);
-        given(userRepository.findByUsername(username)).willReturn(Optional.empty());
 
         //when
+        given(userRepository.findByUsername(username)).willReturn(Optional.empty());
         UsernameNotFoundException exception = assertThrows(
                 UsernameNotFoundException.class,
                 ()->todoService.getTodoInfo(title,username)
         );
+        given(userRepository.findByUsername(username)).willReturn(Optional.of(user));
+        given(todoRepository.findByTitleAndUserId(title,user.getId())).willReturn(new Todo(title,"",user));
+        TodoResponseDto responseDto = todoService.getTodoInfo(title,username);
 
         //then
         assertEquals("Not Found "+username,exception.getMessage());
+        assertEquals(title,responseDto.getTitle());
+        assertEquals(username, responseDto.getUsername());
     }
 
     @Test
