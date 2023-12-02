@@ -55,7 +55,16 @@ public class CommentService {
         if(userDetails ==null) {
             throw new IllegalArgumentException("로그인이 필요합니다.");
         }
-        Users users = userRepository.findByUsername(requestDto.getUsername()).orElseThrow(() -> new UsernameNotFoundException("Not Found " + requestDto.getUsername()));
+        Users users = userRepository.findByUsername(requestDto.getUsername()).orElseThrow(
+                () -> new UsernameNotFoundException("Not Found " + requestDto.getUsername())
+        );
+
+        Todo todo = todoRepository.findByTitleAndUsersId(requestDto.getTitle(),users.getId());
+        if(todo==null) throw new NullPointerException("해당 할일은 존재하지 않습니다.");
+
+        Comment comment = commentRepository.findByContentAndUsersId(requestDto.getContent(),users.getId());
+        if(comment==null) throw new NullPointerException("해당 댓글은 존재하지 않습니다.");
+
         if(!Objects.equals(userDetails.getUser().getUsername(), requestDto.getUsername())){
             throw new IllegalArgumentException("로그인 한 유저와 댓글 작성자 불일치");
         }
