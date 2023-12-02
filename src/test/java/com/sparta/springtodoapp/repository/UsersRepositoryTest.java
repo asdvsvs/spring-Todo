@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -34,5 +36,14 @@ class UsersRepositoryTest {
 
     @Test
     void findByUsername() {
+        //given
+        Users users = new Users("sparta","12345678");
+
+        //when
+        userRepository.save(users);
+        Users findUsers = userRepository.findByUsername(users.getUsername()).orElseThrow();
+
+        //then
+        assertEquals(users,findUsers);
     }
 }
