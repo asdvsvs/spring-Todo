@@ -1,7 +1,7 @@
 package com.sparta.springtodoapp.controller;
 
 import com.sparta.springtodoapp.dto.CommentRequestDto;
-import com.sparta.springtodoapp.dto.CommentResponeseDto;
+import com.sparta.springtodoapp.dto.CommentResponseDto;
 import com.sparta.springtodoapp.security.UserDetailsImpl;
 import com.sparta.springtodoapp.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/comment")
-    public CommentResponeseDto writeComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CommentRequestDto requestDto) {
+    public CommentResponseDto writeComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CommentRequestDto requestDto) {
         log.info("댓글 작성");
         return commentService.writeComment(userDetails, requestDto);
     }

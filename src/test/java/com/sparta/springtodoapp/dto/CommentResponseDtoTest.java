@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CommentResponeseDtoTest {
+class CommentResponseDtoTest {
 
     @Test
     @DisplayName("생성자 테스트")
@@ -14,10 +14,10 @@ class CommentResponeseDtoTest {
         String content = "내용내용";
 
         //when
-        CommentResponeseDto commentResponeseDto = new CommentResponeseDto(content);
+        CommentResponseDto commentResponseDto = new CommentResponseDto(content);
 
         //then
-        assertEquals(content,commentResponeseDto.getContent());
+        assertEquals(content, commentResponseDto.getContent());
     }
 
 }

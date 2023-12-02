@@ -1,7 +1,7 @@
 package com.sparta.springtodoapp.service;
 
 import com.sparta.springtodoapp.dto.CommentRequestDto;
-import com.sparta.springtodoapp.dto.CommentResponeseDto;
+import com.sparta.springtodoapp.dto.CommentResponseDto;
 import com.sparta.springtodoapp.entity.Comment;
 import com.sparta.springtodoapp.entity.Todo;
 import com.sparta.springtodoapp.entity.Users;
@@ -25,12 +25,12 @@ public class CommentService {
     private final TodoRepository todoRepository;
     private final UserRepository userRepository;
 
-    public CommentResponeseDto writeComment(UserDetailsImpl userDetails, CommentRequestDto requestDto) {
+    public CommentResponseDto writeComment(UserDetailsImpl userDetails, CommentRequestDto requestDto) {
         if(userDetails ==null) throw new IllegalArgumentException("로그인이 필요합니다");
         Users users = userRepository.findByUsername(requestDto.getUsername()).orElseThrow(() -> new UsernameNotFoundException("Not Found " + requestDto.getUsername()));
         Todo todo = todoRepository.findByTitleAndUsersId(requestDto.getTitle(), users.getId());
         if (todo !=null) {
-            CommentResponeseDto responseDto = new CommentResponeseDto(requestDto.getContent());
+            CommentResponseDto responseDto = new CommentResponseDto(requestDto.getContent());
             Comment comment = new Comment(requestDto.getContent(),userDetails.getUser(), todo);
             commentRepository.save(comment);
             return responseDto;
