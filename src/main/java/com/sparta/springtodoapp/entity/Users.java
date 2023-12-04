@@ -1,6 +1,7 @@
 package com.sparta.springtodoapp.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,6 +27,7 @@ public class Users {
     private List<Comment> comments = new ArrayList<>();
 
 
+    @Builder
     public Users(String username, String password) {
         this.username = username;
         this.password = password;
