@@ -10,6 +10,10 @@ public interface CommonTest {
     String TEST_USER_NAME = "username";
     String TEST_USER_PASSWORD = "password";
 
+    String TEST_TITLE = "title";
+    String TEST_CONTENT = "content";
+    String ANOTHER_TEST_TITLE = ANOTHER_PREFIX+TEST_TITLE;
+    String ANOTHER_TEST_CONTENT = ANOTHER_PREFIX+TEST_CONTENT;
     Users TEST_USER = Users.builder()
             .username(TEST_USER_NAME)
             .password(TEST_USER_PASSWORD)
